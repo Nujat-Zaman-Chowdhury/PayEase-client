@@ -22,9 +22,15 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, userData, { withCredentials: true });
-      toast.success("Login successful")
       console.log("Login successful", response.data);
-      window.localStorage.setItem("token",response.data.token)
+      if(response.data){
+        const currentUser = response.data.foundUser.email;
+        // console.log(currentUser);
+        toast.success("Login successful")
+        window.localStorage.setItem("token",response.data.token)
+        window.localStorage.setItem("User",currentUser)
+      }
+      
      
       navigate('/dashboard')
 

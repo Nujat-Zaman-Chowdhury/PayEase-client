@@ -14,12 +14,15 @@ import TransactionHistoryUser from "../pages/User/TransactionHistory/Transaction
 import TransactionManagement from "../pages/Agent/TransactionManagement/TransactionManagement";
 import BalanceInquiry from "../pages/Agent/BalanceInquiry/BalanceInquiry";
 import TransactionHistory from "../pages/Agent/TransactionHistory/TransactionHistory";
+import Overview from "../pages/User/Overview/Overview";
 export const router = createBrowserRouter([
     {
       path: "/",
       element: <Welcome/>,
 
     },
+
+    //login and register
     {
       path: "/login",
       element: <Login/>,
@@ -30,6 +33,8 @@ export const router = createBrowserRouter([
       element: <Register/>,
 
     },
+
+    //dashboard
     {
       path: "/dashboard",
       element: <Layout/>,
@@ -40,34 +45,34 @@ export const router = createBrowserRouter([
         },
         //admin routes
         {
-          path:'/user-management',
+          path:'admin/user-management',
           element:<UserManagement/>
         },
         {
-          path:"/system-monitoring",
+          path:"admin/system-monitoring",
           element:<SystemMonitoring/>
         },
 
         //User routes
         {
-          path:"/send-money",
+          path:"user/send-money",
           element:<SendMoney/>
         },
         {
-          path:"/cash-out",
+          path:"user/cash-out",
           element:<CashOut/>
         },
         {
-          path:'/cash-in',
+          path:'user/cash-in',
           element:<CashIn/>
         },
         {
-          path:'/balance-inquiry',
+          path:'user/balance-inquiry',
           element:<BalanceInquiryUser/>
 
         },
         {
-          path:'/transaction-history',
+          path:'user/transaction-history',
           element:<TransactionHistoryUser/>
 
         },
@@ -75,15 +80,15 @@ export const router = createBrowserRouter([
 
         //agent routes
         {
-          path:"/transaction-management",
+          path:"agent/transaction-management",
           element:<TransactionManagement/>,
         },
         {
-          path:"/balance-inquiry",
+          path:"agent/balance-inquiry",
           element:<BalanceInquiry/>
         },
         {
-          path:'/transaction-history',
+          path:'agent/transaction-history',
           element:<TransactionHistory/>
         }
       ]
