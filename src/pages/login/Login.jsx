@@ -24,7 +24,7 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, userData, { withCredentials: true });
       toast.success("Login successful")
       console.log("Login successful", response.data);
-
+      window.localStorage.setItem("token",response.data.token)
      
       navigate('/dashboard')
 
