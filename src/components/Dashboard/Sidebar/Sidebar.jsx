@@ -9,7 +9,12 @@ import { AiOutlineBars } from 'react-icons/ai';
 import AdminMenu from '../Menu/AdminMenu';
 import UserMenu from '../Menu/UserMenu';
 import AgentMenu from '../Menu/AgentMenu';
+import useAuth from '../../../hooks/useAuth';
+import useRole from '../../../hooks/useRole';
 const Sidebar = () => {
+  const {user,logout} = useAuth()
+  const [role] = useRole()
+  console.log(role);
 
   const [isActive, setActive] = useState(false)
 
@@ -20,9 +25,11 @@ const Sidebar = () => {
 
   //handle Logout
   const handleLogOut = ()=>{
-    window.localStorage.clear();
-    window.location.href="/login";
+    logout();
   }
+
+
+
   return (
     <>
       {/* Small Screen Navbar */}
@@ -65,9 +72,9 @@ const Sidebar = () => {
 
             {/*  Menu Items */}
             <nav>
-              {/* <AdminMenu/> */}
-              {/* <UserMenu/> */}
-              <AgentMenu/>
+              {role=== 'Admin' && <AdminMenu/>}
+              {role=== 'User' && <UserMenu/>}
+              {role=== 'Agent' && <AgentMenu/>}
 
             </nav>
           </div>

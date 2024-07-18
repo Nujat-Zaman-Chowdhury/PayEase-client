@@ -2,8 +2,10 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
+  const {user,login} = useAuth()
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
@@ -24,15 +26,15 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, userData, { withCredentials: true });
       console.log("Login successful", response.data);
       if(response.data){
-        const currentUser = response.data.foundUser.email;
+        const currentUser = response.data.foundUser;
         // console.log(currentUser);
         toast.success("Login successful")
         window.localStorage.setItem("token",response.data.token)
-        window.localStorage.setItem("User",currentUser)
+        login(currentUser)
+        navigate('/dashboard')
       }
       
      
-      navigate('/dashboard')
 
     } catch (error) {
       console.error("Login failed", error);

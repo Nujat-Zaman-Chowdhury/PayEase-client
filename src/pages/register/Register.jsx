@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const Register = () => {
+  const [error,setError] = useState('')
   const navigate = useNavigate()
+
     const handleSubmit =async(e)=>{
         e.preventDefault();
         const form = e.target;
@@ -12,7 +15,11 @@ const Register = () => {
         const mobile = form.mobile.value;
         const email = form.email.value;
         const role = form.role.value;
-        
+      
+        if (!/^\d{5}$/.test(pin)) {
+          setError('PIN must be exactly 5 digits and a number');
+          return;
+        }
         const userData = {
           name,
           pin,
@@ -24,17 +31,21 @@ const Register = () => {
         try {
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, userData);
           console.log("Registration successful", response.data);
-          toast.success("Login successful");
-          navigate("/dashboard")
-        } catch (error) {
-          console.error("Registration failed", error);
-          toast.error("Registration failed", error);
+          toast.success("Register successful. Please Login");
+          navigate("/login")
+          setError('')
+        } catch (err) {
+          console.error("Registration failed", err);
+          toast.error(err)
         }
+        setError('')
       };
+
     return (
         <div className="flex justify-center items-center w-full h-full">
       <div className="w-1/2 mx-auto p-8 space-y-3 rounded-xl">
         <h1 className="text-2xl font-bold text-center">Register</h1>
+        {error && <span className="my-3 text-red-400">{error}</span>}
         <form noValidate="" action="" className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-1 text-sm">
             <label htmlFor="username" className="block text-lg text-gray-600">
@@ -45,6 +56,7 @@ const Register = () => {
               name="username"
               id="username"
               placeholder="Your Name"
+              required
               className="w-full px-4 py-3 rounded-md border border-gray-200  focus:border-blue-600"
             />
           </div>
@@ -57,11 +69,13 @@ const Register = () => {
               type="password"
               name="pin"
               id="pin"
+              // pattern="\d{5}"
               maxLength="5"
               required
               placeholder="Enter the pin (5 digit)"
               className="w-full px-4 py-3 rounded-md border border-gray-200  focus:border-blue-600"
             />
+
           </div>
           <div className="space-y-1 text-sm">
             <label htmlFor="password" className="block text-lg text-gray-600">
@@ -71,10 +85,12 @@ const Register = () => {
               type="tel"
               name="mobile"
               id="mobile"
+              required
               placeholder="Enter the pin"
              maxLength="11"
               className="w-full px-4 py-3 rounded-md border border-gray-200  focus:border-blue-600"
             />
+            
           </div>
           <div className="space-y-1 text-sm">
             <label htmlFor="password" className="block text-lg text-gray-600">
@@ -83,10 +99,12 @@ const Register = () => {
             <input
               type="email"
               name="email"
+              required
               id="email"
               placeholder="Enter your email"
               className="w-full px-4 py-3 rounded-md border border-gray-200  focus:border-blue-600"
             />
+            
           </div>
           <div className="space-y-1 text-sm">
             <label
